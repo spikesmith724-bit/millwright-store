@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "Millwright Store",
+    "slug": "millwright-store",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "millwrightstore",
+    "userInterfaceStyle": "light",
+    "ios": { "supportsTablet": true, "bundleIdentifier": "com.brotherspike.millwrightstore", "infoPlist": { "ITSAppUsesNonExemptEncryption": false } },
+    "android": { "package": "com.brotherspike.millwrightstore" },
+    "web": { "bundler": "metro", "output": "single", "name": "Millwright Store", "shortName": "Millwright Store", "themeColor": "#703333", "backgroundColor": "#F5F5F5" },
+    "plugins": ["expo-router"],
+    "experiments": { "typedRoutes": false, "baseUrl": "/millwright-store" }
+  }
+}
