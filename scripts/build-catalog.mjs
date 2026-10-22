@@ -4,8 +4,8 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 const read = (p, d) => (existsSync(new URL(p, import.meta.url)) ? JSON.parse(readFileSync(new URL(p, import.meta.url), 'utf8')) : d);
 const tillson = read('./tillson-items.json', []);
-const research = [...read('./research.json', []), ...read('./research2.json', [])];
-const dropped = new Set(read('./dropped-asins.json', []));
+const research = [...read('./research.json', []), ...read('./research2.json', []), ...read('./research-web.json', []).map((r) => ({ ...r, image: null, price: null, fetched: null }))];
+const dropped = new Set([...read('./dropped-asins.json', []), ...read('./excluded-asins.json', [])]); // 404s + off-topic picks
 const SUB = read('./research-subcategories.json', {});
 
 function sectionForTillson(category, subcategory, title) {
@@ -40,7 +40,7 @@ for (const r of research) {
   const date = r.fetched ?? '2026-10-21';
   out.push({
     id: r.asin, title: title.length > 140 ? `${title.slice(0, 137).trim()}…` : title, note: null, category: CAT[r.cat] ?? 'other', section: r.cat,
-    subcategory: SUB[r.query] ?? null, asin: r.asin, url: `https://www.amazon.com/dp/${r.asin}`, image_url: r.image.replace(/\._AC_[^.]+_\./, '._AC_SL600_.'),
+    subcategory: SUB[r.query] ?? null, asin: r.asin, url: `https://www.amazon.com/dp/${r.asin}`, image_url: r.image && r.image.replace(/\._AC_[^.]+_\./, '._AC_SL600_.'),
     price_usd: r.price, price_seen: r.price == null ? null : date, sort_order: order++, active: true, crew_pick: false, crew_note: null, tags: [],
     price_current: r.price, price_typical: r.price, price_low: r.price, price_checked_at: null, is_deal: false, source: 'amazon-search',
   });
