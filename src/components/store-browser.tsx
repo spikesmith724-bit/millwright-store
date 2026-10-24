@@ -80,7 +80,6 @@ export function StoreBrowser({ section }: { section?: SectionSlug }) {
   const path = current ? `/category/${current.slug}` : '/';
   return (
     <Screen title={title} onRefresh={load} right={<ShareButton title={current ? `${brand.name}: ${current.label}` : brand.name} path={path} />}>
-      <SectionTabs active={section ?? null} />
       <Text style={styles.intro}>{current ? current.blurb : 'Tools for millwright and machinist work. Check off what you need, set the quantity, then send it all to your Amazon cart.'}</Text>
       {error ? <Banner tone="error" text={error} /> : null}
       <CartButton />
@@ -144,23 +143,6 @@ export function StoreBrowser({ section }: { section?: SectionSlug }) {
 }
 
 /** One tab per store section; each opens its own route. */
-export function SectionTabs({ active }: { active: SectionSlug | null }) {
-  const router = useRouter();
-  const tabs = [{ slug: null as SectionSlug | null, label: 'All' }, ...SECTIONS.map((s) => ({ slug: s.slug as SectionSlug | null, label: s.label }))];
-  return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tabs} accessibilityRole="tablist">
-      {tabs.map((t) => {
-        const on = t.slug === active;
-        return (
-          <Pressable key={t.label} accessibilityRole="tab" accessibilityState={{ selected: on }} onPress={() => router.navigate((t.slug ? `/category/${t.slug}` : '/') as never)} style={[styles.tab, on && styles.tabOn]}>
-            <Text style={[styles.tabText, on && styles.tabTextOn]}>{t.label}</Text>
-          </Pressable>
-        );
-      })}
-    </ScrollView>
-  );
-}
-
 const styles = StyleSheet.create({
   tabs: { gap: 8, paddingRight: 8 },
   tab: { minHeight: 40, paddingHorizontal: 14, borderRadius: 20, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.white, justifyContent: 'center' },

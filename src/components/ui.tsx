@@ -1,3 +1,4 @@
+import { CategoryChips } from '@/components/category-chips';
 import { Ionicons } from '@expo/vector-icons';
 import { ReactNode, useState } from 'react';
 import {
@@ -64,7 +65,11 @@ export function Screen({
               />
             ) : undefined
           }>
-          <View style={styles.column}>{children}</View>
+          <View style={styles.column}>
+            <CategoryChips position="top" />
+            {children}
+            <CategoryChips position="bottom" />
+          </View>
         </ScrollView>
         {footer ? <View style={styles.footer}>{footer}</View> : null}
       </KeyboardAvoidingView>
